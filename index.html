@@ -25,11 +25,25 @@
         </button>
       </div>
       <div class="top-icons">
-        <button class="icon-btn" id="btnReport" title="报表">
+        <button class="icon-btn" id="btnArchive" title="存档">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 5-5"/>
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            <line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/>
           </svg>
         </button>
+        <div class="sub-menu hidden" id="archiveSubMenu">
+          <div class="sub-menu-group">
+            <div class="sub-menu-label">报表</div>
+            <button class="sub-menu-item" id="btnScreenshot">截图保存</button>
+            <button class="sub-menu-item" id="btnTextReport">生成文字报告</button>
+          </div>
+          <div class="sub-menu-divider"></div>
+          <div class="sub-menu-group">
+            <div class="sub-menu-label">存档</div>
+            <button class="sub-menu-item" id="btnExportBackup">导出备份</button>
+            <button class="sub-menu-item" id="btnImportBackup">恢复备份</button>
+          </div>
+        </div>
         <button class="icon-btn" id="btnPiggy" title="存钱罐">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 4 3 6 7 6 .6 0 1.2 0 1.8-.1L15 19h2v-2c1.2-.5 2.3-1.4 3-2.5h2v-4h-1c0-1-.5-2-1-3z"/>
@@ -177,6 +191,9 @@
         </div>
       </div>
     </div>
+
+    <!-- 恢复备份用的隐藏文件输入 -->
+    <input type="file" id="backupFileInput" accept=".json" class="hidden">
 
     <!-- 月度设置弹窗 -->
     <div class="modal-overlay hidden" id="settingsModal">

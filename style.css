@@ -69,6 +69,7 @@ body {
 .top-icons {
   display: flex;
   gap: 8px;
+  position: relative;
 }
 
 .icon-btn {
@@ -83,6 +84,62 @@ body {
 
 .icon-btn:hover, .icon-btn:active {
   background: var(--border);
+}
+
+/* ===== 存档子菜单 ===== */
+.sub-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 8px 0;
+  min-width: 160px;
+  z-index: 1000;
+  animation: fadeSlideIn 0.15s ease;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sub-menu-group {
+  padding: 4px 0;
+}
+
+.sub-menu-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 14px 6px;
+}
+
+.sub-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-primary);
+  padding: 8px 14px;
+  transition: background 0.15s;
+}
+
+.sub-menu-item:hover, .sub-menu-item:active {
+  background: var(--border);
+}
+
+.sub-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 0;
 }
 
 /* ===== 月度总览 ===== */

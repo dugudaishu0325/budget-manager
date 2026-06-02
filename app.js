@@ -527,11 +527,14 @@ function bindEvents() {
   document.getElementById('closePiggyAction').addEventListener('click', () => closeModal('piggyActionModal'));
   document.getElementById('btnConfirmPiggyAction').addEventListener('click', handlePiggyAction);
 
-  // 报表
-  document.getElementById('btnReport').addEventListener('click', () => openModal('reportModal'));
+  // 存档
+  document.getElementById('btnArchive').addEventListener('click', toggleArchiveMenu);
+  document.getElementById('btnScreenshot').addEventListener('click', () => { closeArchiveMenu(); handleScreenshot(); });
+  document.getElementById('btnTextReport').addEventListener('click', () => { closeArchiveMenu(); openModal('reportModal'); });
+  document.getElementById('btnExportBackup').addEventListener('click', () => { closeArchiveMenu(); handleExportBackup(); });
+  document.getElementById('btnImportBackup').addEventListener('click', () => { closeArchiveMenu(); document.getElementById('backupFileInput').click(); });
+  document.getElementById('backupFileInput').addEventListener('change', handleImportBackup);
   document.getElementById('closeReport').addEventListener('click', () => closeModal('reportModal'));
-  document.getElementById('btnScreenshot').addEventListener('click', handleScreenshot);
-  document.getElementById('btnTextReport').addEventListener('click', handleTextReport);
   document.getElementById('btnCopyReport').addEventListener('click', handleCopyReport);
 
   // 设置
@@ -1123,6 +1126,72 @@ function checkDayReset() {
     daily.todayOverrides = null;
     saveDailyData(daily);
   }
+}
+
+// ===== 存档子菜单 =====
+
+function toggleArchiveMenu() {
+  const menu = document.getElementById('archiveSubMenu');
+  menu.classList.toggle('hidden');
+}
+
+function closeArchiveMenu() {
+  document.getElementById('archiveSubMenu').classList.add('hidden');
+}
+
+// 点击子菜单外部关闭
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('archiveSubMenu');
+  const btn = document.getElementById('btnArchive');
+  if (!menu.classList.contains('hidden') &&
+      !menu.contains(e.target) &&
+      !btn.contains(e.target)) {
+    closeArchiveMenu();
+  }
+});
+
+// ===== 备份导出/导入 =====
+
+function handleExportBackup() {
+  const backup = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('settings_') ||
+        key.startsWith('daily_') ||
+        key.startsWith('transferred_')) {
+      backup[key] = localStorage.getItem(key);
+    }
+  }
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  a.href = url;
+  a.download = `预算备份_${dateStr}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function handleImportBackup(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const backup = JSON.parse(e.target.result);
+      if (confirm('恢复备份将覆盖现有数据，是否继续？')) {
+        for (const key in backup) {
+          localStorage.setItem(key, backup[key]);
+        }
+        window.location.reload();
+      }
+    } catch (err) {
+      alert('备份文件格式错误：' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
 }
 
 // ===== 初始化 =====
