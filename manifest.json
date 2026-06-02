@@ -1,0 +1,24 @@
+{
+  "name": "小铃的预算管理系统",
+  "short_name": "预算管理",
+  "description": "月度预算管理工具，帮助你合理规划每日花费",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#5a6e7f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
