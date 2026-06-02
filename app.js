@@ -1199,8 +1199,10 @@ function handleImportBackup(event) {
 function init() {
   // 注册 Service Worker（PWA 离线支持）
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').then(() => {
+    navigator.serviceWorker.register('sw.js').then((reg) => {
       console.log('Service Worker 注册成功');
+      // 定期检测 SW 更新，每小时检查一次，有新版本时 SW 会自动通知页面刷新
+      setInterval(() => reg.update(), 60 * 60 * 1000);
     }).catch((err) => {
       console.warn('Service Worker 注册失败:', err);
     });
